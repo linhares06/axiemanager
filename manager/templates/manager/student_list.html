@@ -1,0 +1,11 @@
+{% extends "manager/base.html" %}
+
+{% block content %}
+
+    {% for student in student_list %}
+        <div>
+            <h1><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></h1>
+        </div>
+    {% endfor %}
+
+{% endblock %}

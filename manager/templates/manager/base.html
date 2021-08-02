@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Axie Manager</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}" />
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand">{{ user.username }}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="{% url 'axie_list' %}">Axies</a></li>
+            <li><a href="{% url 'student_list' %}">Alunos</a></li>
+            <li><a href="#">Pagamentos</a></li>
+          </ul>
+          <div class="navbar-header" style="float: right">
+            <a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container theme-showcase" role="main">
+
+      {% block content %}
+      {% endblock %}
+
+    </div>
+
+  </body>
+</html>

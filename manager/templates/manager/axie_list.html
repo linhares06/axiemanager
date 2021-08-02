@@ -1,0 +1,11 @@
+{% extends "manager/base.html" %}
+
+{% block content %}
+
+    {% for axie in axie_list %}
+        <div>
+            <h1><a href="{% url 'axie_detail' pk=axie.pk %}">{{ axie.axie_id }}</a></h1>
+        </div>
+    {% endfor %}
+
+{% endblock %}

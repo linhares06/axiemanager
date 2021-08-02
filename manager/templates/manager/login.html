@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Axie Manager</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}" />
+
+    <style>
+        .theme-showcase { padding-top: 50px; }
+        .form-control { width: 300px; }
+    </style>
+
+  </head>
+  
+  <body>
+
+    <div class="container theme-showcase" role="main">
+
+        <div class="jumbotron">
+
+            <h1>Please Login:</h1>
+
+            <form action="{% url 'user_login' %}" method="POST">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+
+                <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+
+                <label for="password">Password:</label>
+
+                <input type="password" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+
+        </div>
+
+    </div>
+
+  </body>
+
+</html>
