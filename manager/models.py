@@ -24,7 +24,7 @@ class Student(models.Model):
     observarion = models.TextField(blank=True, null=True)
     ronin_id = models.CharField(max_length=42, null=True, blank=True)
     #Obs. maybe it's good to store data values for some calculations: on_delete
-    owner = models.ForeignKey("manager.ScholarshipOwner", related_name="students", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name="userStudents", on_delete=models.DO_NOTHING)
 
     def start_scholarship(self):
         self.start_date = timezone.now()
@@ -66,7 +66,7 @@ class Axie(models.Model):
     description = models.TextField(blank=True, null=True)
     eth_cost = models.DecimalField(max_digits=18, decimal_places=9, validators=[MinValueValidator(0)])
     sold = models.BooleanField(default=False)
-    owner = models.ForeignKey("manager.ScholarshipOwner", related_name="ownerAxies", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name="userAxies", on_delete=models.DO_NOTHING)
 
     def sell(self):
         #TODO: verify if any Student using this axie to mark as sold
@@ -86,7 +86,7 @@ class Payment(models.Model):
     value = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)])
     total_value = models.DecimalField(max_digits=10, decimal_places=2, editable=False, default=0, validators=[MinValueValidator(0)])
     slp = models.PositiveIntegerField(null=False)
-    owner = models.ForeignKey("manager.ScholarshipOwner", related_name="ownerPayments", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name="userPayments", on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return str(self.date) + " " + str(self.student)
@@ -95,11 +95,6 @@ class ScholarshipOwner(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    #username = models.CharField(max_length=50)
-    #password = models.CharField(max_length=32)
-    #name = models.CharField(max_length=200)
-    #email = models.EmailField(max_length=100)
-    #join_date = models.DateField(blank=True, null=True, default=timezone.now())
     last_payment_date = models.DateField(blank=True, null=True)
     ronin_id = models.CharField(max_length=42, null=True, blank=True)
 

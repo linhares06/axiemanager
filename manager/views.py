@@ -11,12 +11,15 @@ from django.views.generic.edit import DeleteView, UpdateView
 #import requests
 
 from manager.forms import AxieForm, StudentForm
-from manager.models import Axie, Student
+from manager.models import Axie, ScholarshipOwner, Student
 
 ## Classes related to Axie
 class AxieListView(LoginRequiredMixin, ListView):
     login_url = "/"
     model = Axie
+
+    def get_queryset(self):
+        return Axie.objects.filter(user_id=self.request.user.id)
 
 class AxieDetailView(LoginRequiredMixin, DetailView):
     login_url = "/"
@@ -41,6 +44,9 @@ class AxieDeleteView(LoginRequiredMixin, DeleteView):
 class StudentListView(LoginRequiredMixin, ListView):
     login_url = "/"
     model = Student
+
+    def get_queryset(self):
+        return Student.objects.filter(user_id=self.request.user.id)
 
 class StudentDetailView(LoginRequiredMixin, DetailView):
     login_url = "/"
