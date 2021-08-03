@@ -13,13 +13,6 @@ from django.views.generic.edit import DeleteView, UpdateView
 from manager.forms import AxieForm, StudentForm
 from manager.models import Axie, Student
 
-# TODO: learn
-def create_and_update_axie(model):
-    login_url = "/login/"
-    redirect_field_name = "manager/home.html"
-    form_class = AxieForm
-    model = Axie
-
 ## Classes related to Axie
 class AxieListView(LoginRequiredMixin, ListView):
     login_url = "/"

@@ -3,9 +3,18 @@
 {% block content %}
 
     {% for axie in axie_list %}
+        {{axie.owner}}
         <div>
             <h1><a href="{% url 'axie_detail' pk=axie.pk %}">{{ axie.axie_id }}</a></h1>
         </div>
     {% endfor %}
+
+    ------------
+
+    {% if user in axie_list.owner %}
+
+            ghahaha
+
+    {% endif %}
 
 {% endblock %}

@@ -3,9 +3,21 @@
 {% block content %}
 
     {% for student in student_list %}
+
+        {{student.owner_id}}
+
         <div>
             <h1><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></h1>
         </div>
     {% endfor %}
+
+        -------
+
+    {% if owner in student_list.owner %}
+
+            ghahaha
+
+    {% endif %}
+
 
 {% endblock %}
