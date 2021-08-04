@@ -73,7 +73,9 @@ class Axie(models.Model):
         pass
 
     def get_absolute_url(self):
-        return reverse("axie_detail", kwargs={"pk":self.pk})
+        return reverse("axie_list")
+        ##TODO: decide the page to reverse to
+        ##return reverse("axie_detail", kwargs={"pk":self.pk})
 
     def __str__(self):
         return self.axie_id

@@ -1,0 +1,12 @@
+{% extends "manager/base.html" %}
+
+{% block content %}
+    
+    <h1>Delete {{ axie.axie_id }}?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <a href="{% url 'axie_list' %}"><input type="button" class="btn btn-warning" value="Cancel"/></a>
+        <input type="submit" class="btn btn-danger" value="Delete"/>
+    </form>
+
+{% endblock %}

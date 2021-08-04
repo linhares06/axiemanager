@@ -14,10 +14,10 @@ class AxieForm(forms.ModelForm):
 
     class Meta():
         model = Axie
-        fields = ("axie_id", "buy_date", "description", "eth_cost", "sold")
+        fields = ("axie_id", "student", "buy_date", "description", "eth_cost", "sold", "user")
 
 class PaymentForm(forms.ModelForm):
 
     class Meta():
         model = Payment
-        fields = ("student",)
+        fields = ("student", "value")

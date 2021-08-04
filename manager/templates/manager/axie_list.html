@@ -2,12 +2,36 @@
 
 {% block content %}
 
-    {% for axie in axie_list %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Axie List</div>
 
-        <div>
-            <h1><a href="{% url 'axie_detail' pk=axie.pk %}">{{ axie.axie_id }}</a></h1>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Axie Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for axie in axie_list %}
+
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td><a href="{% url 'axie_detail' pk=axie.pk %}">{{ axie.axie_id }}</a></td>
+                            <td><a href="{% url 'axie_update' pk=axie.pk %}"><button type="button" class="btn btn-primary">Update</button></a></td>
+                            <td><a href="{% url 'axie_delete' pk=axie.pk %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        
-    {% endfor %}
+
+        <a href="{% url 'axie_form' %}"><button type="button" class="btn btn-success" style="float: right;">Adicionar</button></a>
+
+    </div>
 
 {% endblock %}

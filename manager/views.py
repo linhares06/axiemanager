@@ -11,7 +11,7 @@ from django.views.generic.edit import DeleteView, UpdateView
 #import requests
 
 from manager.forms import AxieForm, StudentForm
-from manager.models import Axie, ScholarshipOwner, Student
+from manager.models import Axie, Payment, ScholarshipOwner, Student
 
 ## Classes related to Axie
 class AxieListView(LoginRequiredMixin, ListView):
@@ -66,6 +66,11 @@ class StudentDeleteView(LoginRequiredMixin, DeleteView):
     login_url = "/"
     model = Student
     success_url = reverse_lazy("student_list")
+
+## Classes related to Payment
+class PaymentListView(LoginRequiredMixin, ListView):
+    login_url = "/"
+    model = Payment
 
 ## Methods related to login and logout
 def user_login(request):

@@ -1,13 +1,39 @@
 {% extends "manager/base.html" %}
 
 {% block content %}
+    
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Student List</div>
 
-    {% for student in student_list %}
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Slp</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in student_list %}
 
-        <div>
-            <h1><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></h1>
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.current_slp }}</td>
+                            <td><a href="#"><button type="button" class="btn btn-primary">Update</button></a></td>
+                            <td><button type="button" class="btn btn-danger">Delete</button></td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        
-    {% endfor %}
+    </div>
 
 {% endblock %}
