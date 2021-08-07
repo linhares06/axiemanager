@@ -16,28 +16,36 @@
   
   <body>
 
-    <div class="container theme-showcase" role="main">
+    {% if user.is_authenticated %}
+      
+      <meta http-equiv="REFRESH" content="0;url=axie">
 
-        <div class="jumbotron">
+    {% else %}
 
-            <h1>Please Login:</h1>
+      <div class="container theme-showcase" role="main">
 
-            <form action="{% url 'user_login' %}" method="POST">
-                {% csrf_token %}
-                <label for="username">Username:</label>
+          <div class="jumbotron">
 
-                <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+              <h1>Please Login:</h1>
 
-                <label for="password">Password:</label>
+              <form action="{% url 'user_login' %}" method="POST">
+                  {% csrf_token %}
+                  <label for="username">Username:</label>
 
-                <input type="password" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                  <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
 
-                <button type="submit" class="btn btn-default">Login</button>
-            </form>
+                  <label for="password">Password:</label>
 
-        </div>
+                  <input type="password" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
 
-    </div>
+                  <button type="submit" class="btn btn-default">Login</button>
+              </form>
+
+          </div>
+
+      </div>
+
+    {% endif %}
 
   </body>
 

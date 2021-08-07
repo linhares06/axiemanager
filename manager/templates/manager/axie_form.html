@@ -4,13 +4,16 @@
 
     formulario axie
 
+    user: {{ user.id }}//// {{form.instance }}</br>
+
     {% if not form.instance.pk %}
 
-        Create
+        Create {{ form.instance.pk }} ----
+        
 
     {% else %}
 
-        Update
+        Update  {{ form.instance.pk }}
 
     {% endif %}
 

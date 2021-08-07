@@ -8,8 +8,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import (DeleteView, ListView, DetailView, CreateView)
 from django.views.generic.edit import DeleteView, UpdateView
 
-#import requests
-
 from manager.forms import AxieForm, StudentForm
 from manager.models import Axie, Payment, ScholarshipOwner, Student
 
@@ -30,10 +28,28 @@ class AxieCreateView(LoginRequiredMixin, CreateView):
     form_class = AxieForm
     model = Axie
 
+    axie_form = AxieForm()
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(AxieCreateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(AxieCreateView, self).get_context_data(**kwargs)
+        context["axie_form"] = self.axie_form
+        context["axie_form"].fields["user"].initial = self.request.user.pk
+        return context
+
 class AxieUpdateView(LoginRequiredMixin, UpdateView):
     login_url = "/"
     form_class = AxieForm
     model = Axie
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(AxieUpdateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
 
 class AxieDeleteView(LoginRequiredMixin, DeleteView):
     login_url = "/"
