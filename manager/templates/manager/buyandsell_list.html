@@ -1,0 +1,67 @@
+{% extends "manager/base.html" %}
+
+{% block content %}
+
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">Compra</div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Axie Name</th>
+                        <th>Custo Eth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for axie in axie_list %}
+
+                        {% if axie.sold == False %}
+
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ axie.axie_id }}</td>
+                                <td>{{ axie.eth_cost }}</td>
+                            </tr>
+
+                        {% endif %}
+                        
+                    {% endfor %}
+                </tbody>
+            </table>
+            Total: {{ total_eth }}
+        </div>
+
+        <div class="panel-heading">Venda</div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Axie Name</th>
+                        <th>Custo Eth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for axie in axie_list %}
+
+                        {% if axie.sold == True %}
+
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ axie.axie_id }}</td>
+                                <td>{{ axie.eth_cost }}</td>
+                            </tr>
+
+                        {% endif %}
+
+                    {% endfor %}
+                </tbody>
+            </table>
+            Total: {{ sold_total_eth }}
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -7,8 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import (DeleteView, ListView, DetailView, CreateView)
 from django.views.generic.edit import DeleteView, UpdateView
+from django.db.models import Sum, Q
 
-from manager.forms import AxieForm, StudentForm
+from manager.forms import AxieForm, PaymentForm, StudentForm
 from manager.models import Axie, Payment, ScholarshipOwner, Student
 
 ## Classes related to Axie
@@ -28,18 +29,10 @@ class AxieCreateView(LoginRequiredMixin, CreateView):
     form_class = AxieForm
     model = Axie
 
-    axie_form = AxieForm()
-
     def get_form_kwargs(self, **kwargs):
         kwargs = super(AxieCreateView, self).get_form_kwargs()
         kwargs["user_id"] = self.request.user.pk
         return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super(AxieCreateView, self).get_context_data(**kwargs)
-        context["axie_form"] = self.axie_form
-        context["axie_form"].fields["user"].initial = self.request.user.pk
-        return context
 
 class AxieUpdateView(LoginRequiredMixin, UpdateView):
     login_url = "/"
@@ -70,13 +63,23 @@ class StudentDetailView(LoginRequiredMixin, DetailView):
 
 class StudentCreateView(LoginRequiredMixin, CreateView):
     login_url = "/"
-    form_class = AxieForm
+    form_class = StudentForm
     model = Student
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(StudentCreateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     login_url = "/"
     form_class = StudentForm
     model = Student
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(StudentUpdateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
 
 class StudentDeleteView(LoginRequiredMixin, DeleteView):
     login_url = "/"
@@ -87,6 +90,61 @@ class StudentDeleteView(LoginRequiredMixin, DeleteView):
 class PaymentListView(LoginRequiredMixin, ListView):
     login_url = "/"
     model = Payment
+
+    def get_queryset(self):
+        return Payment.objects.filter(user_id=self.request.user.id)
+
+class PaymentDetailView(LoginRequiredMixin, DetailView):
+    login_url = "/"
+    model = Payment
+
+class PaymentCreateView(LoginRequiredMixin, CreateView):
+    login_url = "/"
+    form_class = PaymentForm
+    model = Payment
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(PaymentCreateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
+
+class PaymentUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = "/"
+    form_class = PaymentForm
+    model = Payment
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(PaymentUpdateView, self).get_form_kwargs()
+        kwargs["user_id"] = self.request.user.pk
+        return kwargs
+
+class PaymentDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = "/"
+    model = Payment
+    success_url = reverse_lazy("payment_list")
+
+## Classes related Buy and Sell
+class BuyAndSellListView(LoginRequiredMixin, ListView):
+    # For some reason, you need to explicitly tell django the 'template_name' when working with multiple ListViews with the same model
+    template_name = "manager/buyandsell_list.html"
+    login_url = "/"
+    model = Axie
+
+    def get_queryset(self):
+        return Axie.objects.filter(user_id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        ## !!! calculating sum is returning a float value, and result is wrong, need to understand it better
+        total_eth = Axie.objects.filter(Q(user_id=self.request.user.id) | Q(sold=0)).aggregate(Sum("eth_cost"))
+        # better understand the format function to format the value with the right amoutn of numbers after the coma
+        context["total_eth"] = "{0:.10g}".format(total_eth["eth_cost__sum"])
+
+        sold_total_eth = Axie.objects.filter(Q(user_id=self.request.user.id) | Q(sold=1)).aggregate(Sum("eth_cost"))
+        context["sold_total_eth"] = "{0:.10g}".format(sold_total_eth["eth_cost__sum"])
+
+        return context
 
 ## Methods related to login and logout
 def user_login(request):

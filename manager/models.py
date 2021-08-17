@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 # Function to validate max axie per studant
 def validate_axie_limit(value):
     i = 0
-    for p in Axie.objects.raw('SELECT * FROM manager_axie WHERE student_id = '+str(value)):
+    for p in Axie.objects.raw("SELECT * FROM manager_axie WHERE student_id = " + str(value)):
         i += 1
     if i >= 3:
         raise ValidationError("max axie per sutdent 3")
@@ -54,7 +54,7 @@ class Student(models.Model):
         pass
 
     def get_absolute_url(self):
-        return reverse("student_detail", kwargs={"pk":self.pk})
+        return reverse("student_list")
 
     def __str__(self):
         return self.name
@@ -70,6 +70,14 @@ class Axie(models.Model):
 
     def sell(self):
         #TODO: verify if any Student using this axie to mark as sold
+        pass
+
+    @property
+    def calculate_sold_axie_values(self):
+        pass
+
+    @property
+    def calculate_axie_values(self):
         pass
 
     def get_absolute_url(self):
@@ -89,6 +97,9 @@ class Payment(models.Model):
     total_value = models.DecimalField(max_digits=10, decimal_places=2, editable=False, default=0, validators=[MinValueValidator(0)])
     slp = models.PositiveIntegerField(null=False)
     user = models.ForeignKey(User, related_name="userPayments", on_delete=models.DO_NOTHING)
+
+    def get_absolute_url(self):
+        return reverse("payment_list")
 
     def __str__(self):
         return str(self.date) + " " + str(self.student)

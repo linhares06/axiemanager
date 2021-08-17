@@ -3,10 +3,9 @@
 {% block content %}
     
     <div class="panel panel-default">
-        <!-- Default panel contents -->
+        
         <div class="panel-heading">Student List</div>
 
-            <!-- Table -->
             <table class="table">
                 <thead>
                     <tr>
@@ -26,14 +25,17 @@
                             <td><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.current_slp }}</td>
-                            <td><a href="#"><button type="button" class="btn btn-primary">Update</button></a></td>
-                            <td><button type="button" class="btn btn-danger">Delete</button></td>
+                            <td><a href="{% url 'student_update' pk=student.pk %}"><button type="button" class="btn btn-primary">Update</button></a></td>
+                            <td><a href="{% url 'student_delete' pk=student.pk %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
                         </tr>
 
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        <a href="{% url 'student_form' %}"><button type="button" class="btn btn-success" style="float: right;">Adicionar</button></a>
+
     </div>
 
 {% endblock %}

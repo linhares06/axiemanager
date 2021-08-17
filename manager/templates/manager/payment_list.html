@@ -3,10 +3,9 @@
 {% block content %}
     
     <div class="panel panel-default">
-        <!-- Default panel contents -->
+        
         <div class="panel-heading">Payment List</div>
 
-            <!-- Table -->
             <table class="table">
                 <thead>
                     <tr>
@@ -14,6 +13,8 @@
                         <th>Date</th>
                         <th>Student</th>
                         <th>Value</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,12 +25,17 @@
                             <td><a href="#">{{ payment.date }}</a></td>
                             <td>{{ payment.student }}</td>
                             <td>{{ payment.value }}</td>
+                            <td><a href="{% url 'payment_update' pk=payment.pk %}"><button type="button" class="btn btn-primary">Update</button></a></td>
+                            <td><a href="{% url 'payment_delete' pk=payment.pk %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
                         </tr>
 
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        <a href="{% url 'payment_form' %}"><button type="button" class="btn btn-success" style="float: right;">Adicionar</button></a>
+
     </div>
 
 {% endblock %}
