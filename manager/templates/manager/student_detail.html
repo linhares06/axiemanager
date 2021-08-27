@@ -11,6 +11,19 @@
         {{ student.total_slp }}
         {{ student.active }}
         {{ student.observarion }}
+
+        <form action='get_json_from_ronin_id' method='GET'>
+            <button type='submit'>Get Json from Ronin</button>
+        </form>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li> {{ message }} </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     </div>
 
 {% endblock %}

@@ -22,4 +22,6 @@ urlpatterns = [
     path('payment/delete/<int:pk>/', views.PaymentDeleteView.as_view(), name="payment_delete"),
     ## paths to Buy and Sell
     path('buyandsell/', views.BuyAndSellListView.as_view(), name="buyandsell_list"),
+    ## paths to button clicks
+    path('student/<int:pk>/get_json_from_ronin_id', views.get_json_from_ronin_id, name="get_json_from_ronin_id"),
 ]

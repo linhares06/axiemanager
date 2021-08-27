@@ -13,6 +13,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Slp</th>
+                        <th>Total Slp</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -25,6 +26,7 @@
                             <td><a href="{% url 'student_detail' pk=student.pk %}">{{ student.name }}</a></td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.current_slp }}</td>
+                            <td>{{ student.total_slp }}</td>
                             <td><a href="{% url 'student_update' pk=student.pk %}"><button type="button" class="btn btn-primary">Update</button></a></td>
                             <td><a href="{% url 'student_delete' pk=student.pk %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
                         </tr>
