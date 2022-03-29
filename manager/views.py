@@ -49,20 +49,6 @@ class AxieUpdateView(LoginRequiredMixin, UpdateView):
         kwargs["user_id"] = self.request.user.pk
         return kwargs
 
-    # Testing how to limit access to objects from diferent users, this may be a solution
-    #def get_object(self, queryset=None):
-     #   return self.model.objects.get(pk=self.request.user.pk)
-      #  if queryset is None:
-       #     queryset = self.get_queryset()   
-
-        #queryset = queryset.filter(user_id=self.request.user.pk)
-
-        #try:
-         #   obj = queryset.get()
-        #except queryset.model.DoesNotExist:
-        #    return HttpResponse("No user matching this query")
-        #return obj
-
 class AxieDeleteView(LoginRequiredMixin, DeleteView):
     login_url = "/"
     model = Axie
@@ -144,7 +130,7 @@ class PaymentDeleteView(LoginRequiredMixin, DeleteView):
 
 ## Classes related Buy and Sell
 class BuyAndSellListView(LoginRequiredMixin, ListView):
-    # For some reason, you need to explicitly tell django the 'template_name' when working with multiple ListViews with the same model
+    
     template_name = "manager/buyandsell_list.html"
     login_url = "/"
     model = Axie
@@ -154,10 +140,9 @@ class BuyAndSellListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        ## !!! calculating sum is returning a float value, and result is wrong, need to understand it better
+        
         total_eth = Axie.objects.filter(Q(user_id=self.request.user.id) | Q(sold=0)).aggregate(Sum("eth_cost"))
-        # better understand the format function to format the value with the right amount of numbers after the coma
+        
         context["total_eth"] = "{0:.10g}".format(total_eth["eth_cost__sum"])
 
         sold_total_eth = Axie.objects.filter(Q(user_id=self.request.user.id) | Q(sold=1)).aggregate(Sum("eth_cost"))
@@ -185,7 +170,7 @@ def user_login(request):
                 #TODO: Maybe massage about paying for access and letting download csv
                 return HttpResponse("ACC NOT ACTIVE")
         else:
-            #TODO: bad response, figure sothing else to return to client
+            
             return HttpResponse("Invalid Login")
     else:
         return render(request, "manager/login.html", {})
@@ -197,10 +182,9 @@ def user_logout(request):
 
 def get_json_from_ronin_id(request, pk):
 
-#    r = requests.get(url='https://api.lunaciarover.com/stats/0x36ec27579284e7fd3b6bf43a937bcc23aaaef1a4')
-#   json return for test
-    r = '{"ronin_address": "0x36ec27579284e7fd3b6bf43a937bcc23aaaef1a4", "updated_on": 1630014640, "last_claim_amount": 4305, "last_claim_timestamp": 1629344555, "ronin_slp": 0, "total_slp": 1026, "in_game_slp": 1026, "slp_success": true, "rank": 22324, "mmr": 1882, "total_matches": 0, "win_rate": 0, "ign": "Paulo Gomes", "game_stats_success": true}'
-    json_value = json.loads(r)
+    r = requests.get(url='https://api.lunaciarover.com/stats/0x36ec27579284e7fd3b6bf43a937bcc23aaaef1a4')
+
+   json_value = json.loads(r)
     
     student = Student.objects.get(id=pk)
     student.total_slp = json_value["total_slp"]
